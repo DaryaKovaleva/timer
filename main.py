@@ -4,6 +4,9 @@ import time
 
 class Timer:
     def __init__(self):
+        self.h = 00
+        self.min = 00
+        self.sec = 00
         self.root = Tk()
         self.root.title('Timer')
         self.root.config(bg='white')
@@ -43,8 +46,8 @@ class Timer:
         self.title.place(x=235, y=90)
         self.seconds_inp.place(x=270, y=100)
 
-        self.start = Button(self.root, text='start', font=('Arial', 12), bg='white', command = self.timer())
-        self.stop = Button(self.root, text='stop', font=('Arial', 12), bg='white')
+        self.start = Button(self.root, text='start', font=('Arial', 12), bg='white', command = self.timer)
+        self.stop = Button(self.root, text='stop', font=('Arial', 12), bg='white', command = self.stop)
 
         self.start.place(x = 100, y = 200)
         self.stop.place(x = 200, y = 200)
@@ -53,14 +56,23 @@ class Timer:
     def timer(self):
         times = int(self.hours.get())*3600 + int(self.minutes.get())*60 + int(self.seconds.get())
         while times > -1:
-            minutes, seconds = (times//60, times%60)
-            hours = 0
-            if minutes > 60:
-                hours, minutes = (minutes // 60, minutes % 60)
-            self.hours.set(hours)
-            self.minutes.set(minutes)
-            self.seconds.set(seconds)
+            self.min, self.sec = (times//60, times%60)
+            self.h = 0
+            if self.min > 60:
+                self.h, self.min = (self.min // 60, self.min % 60)
+            self.hours.set(self.h)
+            self.minutes.set(self.min)
+            self.seconds.set(self.sec)
             self.root.update()
             time.sleep(1)
             times -= 1
+
+    def stop(self):
+        self.h = 00
+        self.min = 00
+        self.sec = 00
+        self.seconds.set(self.sec)
+        self.minutes.set(self.min)
+        self.hours.set(self.h)
+        self.root.update()
 n = Timer()
